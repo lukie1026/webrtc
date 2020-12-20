@@ -277,9 +277,9 @@ func (m *MediaEngine) RegisterFeedback(feedback RTCPFeedback, typ RTPCodecType) 
 	}
 }
 
-// getHeaderExtensionID returns the negotiated ID for a header extension.
+// GetHeaderExtensionID returns the negotiated ID for a header extension.
 // If the Header Extension isn't enabled ok will be false
-func (m *MediaEngine) getHeaderExtensionID(extension RTPHeaderExtensionCapability) (val int, audioNegotiated, videoNegotiated bool) {
+func (m *MediaEngine) GetHeaderExtensionID(extension RTPHeaderExtensionCapability) (val int, audioNegotiated, videoNegotiated bool) {
 	if m.negotiatedHeaderExtensions == nil {
 		return 0, false, false
 	}
@@ -293,7 +293,8 @@ func (m *MediaEngine) getHeaderExtensionID(extension RTPHeaderExtensionCapabilit
 	return
 }
 
-func (m *MediaEngine) getCodecByPayload(payloadType PayloadType) (RTPCodecParameters, RTPCodecType, error) {
+// GetCodecByPayload returns the negotiated codec by given payload
+func (m *MediaEngine) GetCodecByPayload(payloadType PayloadType) (RTPCodecParameters, RTPCodecType, error) {
 	for _, codec := range m.negotiatedVideoCodecs {
 		if codec.PayloadType == payloadType {
 			return codec, RTPCodecTypeVideo, nil
@@ -353,7 +354,7 @@ func (m *MediaEngine) updateCodecParameters(remoteCodec RTPCodecParameters, typ 
 			return err
 		}
 
-		if _, _, err = m.getCodecByPayload(PayloadType(payloadType)); err != nil {
+		if _, _, err = m.GetCodecByPayload(PayloadType(payloadType)); err != nil {
 			return nil // not an error, we just ignore this codec we don't support
 		}
 	}
@@ -474,7 +475,7 @@ func (m *MediaEngine) getRTPParametersByKind(typ RTPCodecType, directions []RTPT
 }
 
 func (m *MediaEngine) getRTPParametersByPayloadType(payloadType PayloadType) (RTPParameters, error) {
-	codec, typ, err := m.getCodecByPayload(payloadType)
+	codec, typ, err := m.GetCodecByPayload(payloadType)
 	if err != nil {
 		return RTPParameters{}, err
 	}

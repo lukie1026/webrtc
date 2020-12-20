@@ -64,7 +64,7 @@ a=fmtp:111 minptime=10; useinbandfec=1
 		assert.False(t, m.negotiatedVideo)
 		assert.True(t, m.negotiatedAudio)
 
-		opusCodec, _, err := m.getCodecByPayload(111)
+		opusCodec, _, err := m.GetCodecByPayload(111)
 		assert.NoError(t, err)
 		assert.Equal(t, opusCodec.MimeType, MimeTypeOpus)
 	})
@@ -86,10 +86,10 @@ a=fmtp:112 minptime=10; useinbandfec=1
 		assert.False(t, m.negotiatedVideo)
 		assert.True(t, m.negotiatedAudio)
 
-		_, _, err := m.getCodecByPayload(111)
+		_, _, err := m.GetCodecByPayload(111)
 		assert.Error(t, err)
 
-		opusCodec, _, err := m.getCodecByPayload(112)
+		opusCodec, _, err := m.GetCodecByPayload(112)
 		assert.NoError(t, err)
 		assert.Equal(t, opusCodec.MimeType, MimeTypeOpus)
 	})
@@ -111,7 +111,7 @@ a=fmtp:111 minptime=10; useinbandfec=1
 		assert.False(t, m.negotiatedVideo)
 		assert.True(t, m.negotiatedAudio)
 
-		opusCodec, _, err := m.getCodecByPayload(111)
+		opusCodec, _, err := m.GetCodecByPayload(111)
 		assert.NoError(t, err)
 		assert.Equal(t, opusCodec.MimeType, "audio/OPUS")
 	})
@@ -132,7 +132,7 @@ a=rtpmap:111 opus/48000/2
 		assert.False(t, m.negotiatedVideo)
 		assert.True(t, m.negotiatedAudio)
 
-		opusCodec, _, err := m.getCodecByPayload(111)
+		opusCodec, _, err := m.GetCodecByPayload(111)
 		assert.NoError(t, err)
 		assert.Equal(t, opusCodec.MimeType, MimeTypeOpus)
 	})
@@ -155,12 +155,12 @@ a=rtpmap:111 opus/48000/2
 		assert.False(t, m.negotiatedVideo)
 		assert.True(t, m.negotiatedAudio)
 
-		absID, absAudioEnabled, absVideoEnabled := m.getHeaderExtensionID(RTPHeaderExtensionCapability{sdp.ABSSendTimeURI})
+		absID, absAudioEnabled, absVideoEnabled := m.GetHeaderExtensionID(RTPHeaderExtensionCapability{sdp.ABSSendTimeURI})
 		assert.Equal(t, absID, 0)
 		assert.False(t, absAudioEnabled)
 		assert.False(t, absVideoEnabled)
 
-		midID, midAudioEnabled, midVideoEnabled := m.getHeaderExtensionID(RTPHeaderExtensionCapability{sdp.SDESMidURI})
+		midID, midAudioEnabled, midVideoEnabled := m.GetHeaderExtensionID(RTPHeaderExtensionCapability{sdp.SDESMidURI})
 		assert.Equal(t, midID, 7)
 		assert.True(t, midAudioEnabled)
 		assert.False(t, midVideoEnabled)
